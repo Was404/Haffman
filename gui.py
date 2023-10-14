@@ -1,8 +1,13 @@
+import tkinter as tk
 import heapq
 from collections import Counter
 from collections import namedtuple
-from gui import user_input
-# структура дерева
+
+# Constants
+WIDTH = 500
+HEIGHT = 500
+RADIUS = 20
+
 class Node(namedtuple("Node", ["left", "right"])):  
     def walk(self, code, arret):
         # чтобы обойти дерево нам нужно:
@@ -32,14 +37,28 @@ def huffman_encode(s):
         root.walk(code, "") 
     return code 
 
-def main():
-    s = user_input  #  до 10**4
+def on_button_click():
+    user_input = entry.get("1.0", "end")
+    s = user_input
     code = huffman_encode(s)
     encoded = "".join(code[ch] for ch in s)
     print(len(code), len(encoded))
+    rp = []
     for ch in sorted(code):
-        print("{}| {}".format(" "*6+ch, code[ch])) 
-    print("закодированное предложение: ",encoded) 
+        rp.append("{}|{}".format(" "*6+ch, code[ch]))
+        print("{}|{}".format(" "*6+ch, code[ch]))
+    print("закодированное предложение: ",encoded)
+    rp_string = "\n".join(rp) 
+    entry.delete("1.0", "end")  # Очищаем поле ввода
+    entry.insert("1.0", f"{len(code)}, {len(encoded)}{rp_string}, \nзакодированное предложение:\n{encoded}")  # Выводим сообщение в поле ввода
+    
 
-if __name__ == "__main__":
-    main()
+root = tk.Tk()
+root.geometry(f"{WIDTH}x{HEIGHT}")
+entry = tk.Text(root, width=30, height=10, font=('Arial', 12))
+entry.pack()
+
+button = tk.Button(root, text="Нажмите", command=on_button_click)
+button.pack()
+
+root.mainloop()
