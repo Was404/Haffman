@@ -1,7 +1,7 @@
 import heapq
 from collections import Counter
 from collections import namedtuple
-from gui import user_input
+#from gui import user_input
 # структура дерева
 class Node(namedtuple("Node", ["left", "right"])):  
     def walk(self, code, arret):
@@ -33,7 +33,7 @@ def huffman_encode(s):
     return code 
 
 def main():
-    s = user_input  #  до 10**4
+    s = input()  #  до 10**4
     code = huffman_encode(s)
     encoded = "".join(code[ch] for ch in s)
     print(len(code), len(encoded))

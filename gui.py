@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import heapq
 from collections import Counter
 from collections import namedtuple
@@ -27,7 +28,7 @@ def huffman_encode(s):
     while len(order_with_P) > 1:
         fq1, _ct1, left = heapq.heappop(order_with_P ) 
         fq2, _ct2, right = heapq.heappop(order_with_P ) 
-        # поместим в очередь новый элемент, у которого частота равна суме частот вытащенных элементов
+        #новый элемент, у которого частота равна суме частот вытащенных элементов
         heapq.heappush(order_with_P , (fq1 + fq2, count, Node(left, right)))
                                                                      
         count += 1
@@ -39,7 +40,8 @@ def huffman_encode(s):
 
 def on_button_click():
     user_input = entry.get("1.0", "end")
-    s = user_input
+    s = user_input.strip() #HOTFIX nulls 
+    print(s)
     code = huffman_encode(s)
     encoded = "".join(code[ch] for ch in s)
     print(len(code), len(encoded))
@@ -49,8 +51,8 @@ def on_button_click():
         print("{}|{}".format(" "*6+ch, code[ch]))
     print("закодированное предложение: ",encoded)
     rp_string = "\n".join(rp) 
-    entry.delete("1.0", "end")  # Очищаем поле ввода
-    entry.insert("1.0", f"{len(code)}, {len(encoded)}{rp_string}, \nзакодированное предложение:\n{encoded}")  # Выводим сообщение в поле ввода
+    entry.delete("1.0", "end")  # Очищаем 
+    entry.insert("1.0", f"{len(code)}, {len(encoded)}\n{rp_string}, \nзакодированное предложение:\n{encoded}")  # Выводим сообщение в поле ввода
     
 
 root = tk.Tk()
@@ -60,5 +62,6 @@ entry.pack()
 
 button = tk.Button(root, text="Нажмите", command=on_button_click)
 button.pack()
+
 
 root.mainloop()
